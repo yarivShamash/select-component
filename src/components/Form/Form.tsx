@@ -1,5 +1,7 @@
 import { ChangeEventHandler, useState } from "react";
 
+import { marineMammals, marineInvertebrates } from "../../mocks";
+
 import { Option } from "../Select/types";
 import { Select } from "../Select";
 
@@ -22,21 +24,15 @@ export const Form = () => {
   return (
     <>
       <Select
-        title="Single Select"
-        options={[
-          { label: "Option 1", value: 1 },
-          { label: "Option 2", value: 2 },
-        ]}
+        title="Choose a Marine Invertebrate"
+        options={marineInvertebrates}
         onSelect={handleSingleSelect}
         selected={singleSelected}
       />
 
       <Select
-        title="Multi Select"
-        options={[
-          { label: "Option 1", value: 1 },
-          { label: "Option 2", value: 2 },
-        ]}
+        title="Choose some Marine Mammals"
+        options={marineMammals}
         onSelect={handleMultiSelect}
         selected={multiSelected}
       />
