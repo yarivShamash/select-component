@@ -13,13 +13,12 @@ interface SelectProps {
   onMultiSelect?: (value: Option["value"][]) => void;
 }
 
-const Select = ({ title, options, onSingleSelect, onMultiSelect, selected }: SelectProps) => {
+export const Select = ({ title, options, onSingleSelect, onMultiSelect, selected }: SelectProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState<Option[]>(options);
 
   const toggleExpand = () => setIsExpanded(!isExpanded);
   const isMultiSelect = Array.isArray(selected) && onMultiSelect;
-
   const toggleSelectAllButtonTitle = isMultiSelect && selected.length ? "Clear All" : "Select All";
 
   const selectionTitle = useMemo(() => {
@@ -38,6 +37,7 @@ const Select = ({ title, options, onSingleSelect, onMultiSelect, selected }: Sel
 
     setFilteredOptions(filteredOptions);
   };
+
   const handleToggleSelectAll = () => {
     if (!onMultiSelect) return;
 
@@ -77,5 +77,3 @@ const Select = ({ title, options, onSingleSelect, onMultiSelect, selected }: Sel
     </SelectContainer>
   );
 };
-
-export default Select;
