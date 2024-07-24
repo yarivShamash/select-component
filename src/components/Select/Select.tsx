@@ -1,9 +1,9 @@
 import { ChangeEventHandler, useMemo, useState } from "react";
 
 import { Option } from "./types";
-import { SelectContainer, SelectTitle, ToggleSelectionButton } from "./style";
+import { OptionsContainer, SelectContainer, SelectTitle, ToggleSelectionButton } from "./style";
 
-import { Search, Options } from "./";
+import { Search, OptionItem } from "./";
 
 interface SelectProps {
   title: string;
@@ -46,12 +46,18 @@ const Select = ({ title, options, onSingleSelect, onMultiSelect, onToggleSelectA
       {isExpanded && (
         <>
           <Search onSearch={handleSearch} />
-          <Options
-            options={filteredOptions}
-            onSingleSelect={onSingleSelect}
-            onMultiSelect={onMultiSelect}
-            selected={selected}
-          />
+          <OptionsContainer>
+            {filteredOptions.map((option) => {
+              return (
+                <OptionItem
+                  option={option}
+                  onSingleSelect={onSingleSelect}
+                  onMultiSelect={onMultiSelect}
+                  selected={selected}
+                />
+              );
+            })}
+          </OptionsContainer>
           {onToggleSelectAll && (
             <ToggleSelectionButton onClick={onToggleSelectAll}>{toggleSelectAllButtonTitle}</ToggleSelectionButton>
           )}

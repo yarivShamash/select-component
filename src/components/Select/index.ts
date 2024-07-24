@@ -1,3 +1,3 @@
 export { default as Select } from "./Select";
-export * from "./Options";
+export * from "./OptionItem";
 export * from "./Search";
