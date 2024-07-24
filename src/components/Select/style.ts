@@ -20,6 +20,16 @@ export const SelectTitle = styled.h3`
   cursor: pointer;
 `;
 
+export const SearchInput = styled.input`
+  background-color: #303030;
+
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+`;
+
 export const OptionsContainer = styled.div`
   display: flex;
   flex-direction: column;

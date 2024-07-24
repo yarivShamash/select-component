@@ -1,7 +1,9 @@
 import { ChangeEventHandler, useMemo, useState } from "react";
 
 import { Option } from "./types";
-import { OptionContainer, OptionsContainer, SelectContainer, SelectTitle } from "./style";
+import { SelectContainer, SelectTitle } from "./style";
+
+import { Search, Options } from "./";
 
 interface SelectProps {
   title: string;
@@ -10,8 +12,11 @@ interface SelectProps {
   selected: Option["value"] | Option["value"][] | null;
 }
 
-export const Select = ({ title, options, onSelect, selected }: SelectProps) => {
+const Select = ({ title, options, onSelect, selected }: SelectProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [filteredOptions, setFilteredOptions] = useState<Option[]>(options);
+
+  const toggleExpand = () => setIsExpanded(!isExpanded);
 
   const selectionTitle = useMemo(() => {
     if (Array.isArray(selected)) {
@@ -24,29 +29,23 @@ export const Select = ({ title, options, onSelect, selected }: SelectProps) => {
     }
   }, [options, selected]);
 
-  const toggleExpand = () => setIsExpanded(!isExpanded);
+  const handleSearch: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const filteredOptions = options.filter(({ label }) => label.toLowerCase().includes(e.target.value.toLowerCase()));
+
+    setFilteredOptions(filteredOptions);
+  };
 
   return (
     <SelectContainer>
       <SelectTitle onClick={toggleExpand}>{selectionTitle || title}</SelectTitle>
-
       {isExpanded && (
-        <OptionsContainer>
-          {options.map((option) => {
-            const checkboxId = option.value.toString();
-            const isSelected = Array.isArray(selected)
-              ? selected.includes(option.value.toString())
-              : selected === option.value.toString();
-
-            return (
-              <OptionContainer key={option.value}>
-                <input type="checkbox" id={checkboxId} onChange={onSelect} value={option.value} checked={isSelected} />
-                <label htmlFor={checkboxId}>{option.label}</label>
-              </OptionContainer>
-            );
-          })}
-        </OptionsContainer>
+        <>
+          <Search onSearch={handleSearch} />
+          <Options options={filteredOptions} onSelect={onSelect} selected={selected} />
+        </>
       )}
     </SelectContainer>
   );
 };
+
+export default Select;
