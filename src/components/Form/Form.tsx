@@ -1,7 +1,6 @@
-import { ChangeEventHandler, useState } from "react";
+import { useState } from "react";
 
 import { marineMammals, marineInvertebrates } from "../../mocks";
-
 import { Option } from "../Select/types";
 import { Select } from "../Select";
 
@@ -9,16 +8,20 @@ export const Form = () => {
   const [singleSelected, setSingleSelected] = useState<Option["value"] | null>(null);
   const [multiSelected, setMultiSelected] = useState<Option["value"][]>([]);
 
-  const handleSingleSelect: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setSingleSelected(e.target?.value);
+  const handleSingleSelect = (value: Option["value"] | null) => {
+    setSingleSelected(value);
   };
 
-  const handleMultiSelect: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const selectedOptions = multiSelected.includes(e.target.value)
-      ? multiSelected.filter((value) => value !== e.target.value)
-      : [...multiSelected, e.target.value];
+  const handleMultiSelect = (value: Option["value"][]) => {
+    const selectedOptions = multiSelected.includes(value.toString())
+      ? multiSelected.filter((selected) => selected !== value[0])
+      : [...multiSelected, value[0]];
 
     setMultiSelected(selectedOptions);
+  };
+
+  const handleToggleSelectAll = () => {
+    setMultiSelected(multiSelected.length ? [] : marineMammals.map(({ value }) => value));
   };
 
   return (
@@ -26,15 +29,16 @@ export const Form = () => {
       <Select
         title="Choose a Marine Invertebrate"
         options={marineInvertebrates}
-        onSelect={handleSingleSelect}
+        onSingleSelect={handleSingleSelect}
         selected={singleSelected}
       />
 
       <Select
         title="Choose some Marine Mammals"
         options={marineMammals}
-        onSelect={handleMultiSelect}
+        onMultiSelect={handleMultiSelect}
         selected={multiSelected}
+        onToggleSelectAll={handleToggleSelectAll}
       />
     </>
   );

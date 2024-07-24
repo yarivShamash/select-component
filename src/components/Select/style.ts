@@ -10,7 +10,7 @@ export const SelectTitle = styled.h3`
   margin-bottom: 0.5rem;
   height: fit-content;
 
-  max-width: 300px;
+  width: 300px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -22,6 +22,7 @@ export const SelectTitle = styled.h3`
 
 export const SearchInput = styled.input`
   background-color: #303030;
+  color: white;
 
   border: none;
   border-radius: 0.25rem;
@@ -43,4 +44,18 @@ export const OptionContainer = styled.div`
   gap: 0.5rem;
 
   margin-bottom: 0.5rem;
+`;
+
+export const ToggleSelectionButton = styled.button`
+  max-width: 100px;
+  background-color: #303030;
+  color: white;
+  font-size: 1rem;
+
+  border: none;
+  border-radius: 0.25rem;
+
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  align-self: flex-end;
 `;
