@@ -50,6 +50,7 @@ const Select = ({ title, options, onSingleSelect, onMultiSelect, onToggleSelectA
             {filteredOptions.map((option) => {
               return (
                 <OptionItem
+                  key={option.value}
                   option={option}
                   onSingleSelect={onSingleSelect}
                   onMultiSelect={onMultiSelect}

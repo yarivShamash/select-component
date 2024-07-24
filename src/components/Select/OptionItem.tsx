@@ -22,8 +22,14 @@ export const OptionItem = ({ option, onSingleSelect, onMultiSelect, selected }: 
   );
 
   return (
-    <OptionContainer onClick={onClickSelection} key={option.value}>
-      {onMultiSelect && <input type="checkbox" id={checkboxId} value={option.value} checked={isSelected} />}
+    <OptionContainer key={option.value}>
+      <input
+        type={onMultiSelect ? "checkbox" : "radio"}
+        id={checkboxId}
+        onChange={onClickSelection}
+        value={option.value}
+        checked={isSelected}
+      />
       <label htmlFor={checkboxId}>{option.label}</label>
     </OptionContainer>
   );
