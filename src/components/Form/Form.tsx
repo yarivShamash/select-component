@@ -25,16 +25,15 @@ export const Form = () => {
   };
 
   const handleMultiSelect = (value: Option["value"][]) => {
-    const selectedOptions = marineMammals.includes(value.toString())
-      ? marineMammals.filter((selected) => selected !== value[0])
-      : [...marineMammals, value[0]];
-
-    setMarineMammals(selectedOptions);
+    if (value.length !== 1) {
+      setMarineMammals(value);
+    } else {
+      const selectedOptions = marineMammals.includes(value[0].toString())
+        ? marineMammals.filter((selected) => selected !== value[0])
+        : [...marineMammals, value[0]];
+      setMarineMammals(selectedOptions);
+    }
   };
-
-  const handleToggleSelectAll = () => {
-    setMarineMammals(marineMammals.length ? [] : marineMammalsMock.map(({ value }) => value));
-  }; // move to Select component
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -57,7 +56,6 @@ export const Form = () => {
         options={marineMammalsMock}
         onMultiSelect={handleMultiSelect}
         selected={marineMammals}
-        onToggleSelectAll={handleToggleSelectAll}
       />
       <SubmitButton type="submit" value="Send" />
     </FormContainer>

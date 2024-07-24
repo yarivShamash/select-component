@@ -11,10 +11,9 @@ interface SelectProps {
   selected: Option["value"] | Option["value"][] | null;
   onSingleSelect?: (value: Option["value"]) => void;
   onMultiSelect?: (value: Option["value"][]) => void;
-  onToggleSelectAll?: () => void;
 }
 
-const Select = ({ title, options, onSingleSelect, onMultiSelect, onToggleSelectAll, selected }: SelectProps) => {
+const Select = ({ title, options, onSingleSelect, onMultiSelect, selected }: SelectProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState<Option[]>(options);
 
@@ -39,6 +38,17 @@ const Select = ({ title, options, onSingleSelect, onMultiSelect, onToggleSelectA
 
     setFilteredOptions(filteredOptions);
   };
+  const handleToggleSelectAll = () => {
+    if (!onMultiSelect) return;
+
+    if (typeof selected !== "number" && selected?.length) {
+      onMultiSelect([]);
+    } else {
+      const allValues = options.map(({ value }) => value);
+
+      onMultiSelect(allValues);
+    }
+  };
 
   return (
     <SelectContainer>
@@ -59,8 +69,8 @@ const Select = ({ title, options, onSingleSelect, onMultiSelect, onToggleSelectA
               );
             })}
           </OptionsContainer>
-          {onToggleSelectAll && (
-            <ToggleSelectionButton onClick={onToggleSelectAll}>{toggleSelectAllButtonTitle}</ToggleSelectionButton>
+          {isMultiSelect && (
+            <ToggleSelectionButton onClick={handleToggleSelectAll}>{toggleSelectAllButtonTitle}</ToggleSelectionButton>
           )}
         </>
       )}
