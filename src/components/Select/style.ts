@@ -3,27 +3,34 @@ import { styled } from "styled-components";
 export const SelectContainer = styled.div`
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 5px 5px rgba(256, 256, 256, 0.1);
   max-width: fit-content;
 `;
 
 export const SelectTitle = styled.h3`
   margin-bottom: 0.5rem;
   height: fit-content;
+
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: start;
+
+  font-size: 1.5rem;
   cursor: pointer;
 `;
 
 export const OptionsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  cursor: pointer;
 `;
 
 export const OptionContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  cursor: pointer;
 
-  max-width: 150px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
   margin-bottom: 0.5rem;
 `;

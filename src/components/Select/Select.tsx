@@ -1,12 +1,7 @@
-import { ChangeEventHandler, useState } from "react";
+import { ChangeEventHandler, useMemo, useState } from "react";
 
 import { Option } from "./types";
-import {
-  OptionContainer,
-  OptionsContainer,
-  SelectContainer,
-  SelectTitle,
-} from "./style";
+import { OptionContainer, OptionsContainer, SelectContainer, SelectTitle } from "./style";
 
 interface SelectProps {
   title: string;
@@ -18,11 +13,22 @@ interface SelectProps {
 export const Select = ({ title, options, onSelect, selected }: SelectProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const selectionTitle = useMemo(() => {
+    if (Array.isArray(selected)) {
+      const selectedOptions = options.filter(({ value }) => selected.includes(value.toString()));
+      const selectedTitles = selectedOptions.map(({ label }) => label);
+      return selectedTitles.join(", ");
+    } else {
+      const selectedOption = options.filter(({ value }) => selected === value.toString());
+      return selectedOption[0]?.label;
+    }
+  }, [options, selected]);
+
   const toggleExpand = () => setIsExpanded(!isExpanded);
 
   return (
     <SelectContainer>
-      <SelectTitle onClick={toggleExpand}>{title}</SelectTitle>
+      <SelectTitle onClick={toggleExpand}>{selectionTitle || title}</SelectTitle>
 
       {isExpanded && (
         <OptionsContainer>
@@ -34,13 +40,7 @@ export const Select = ({ title, options, onSelect, selected }: SelectProps) => {
 
             return (
               <OptionContainer key={option.value}>
-                <input
-                  type="checkbox"
-                  id={checkboxId}
-                  onChange={onSelect}
-                  value={option.value}
-                  checked={isSelected}
-                />
+                <input type="checkbox" id={checkboxId} onChange={onSelect} value={option.value} checked={isSelected} />
                 <label htmlFor={checkboxId}>{option.label}</label>
               </OptionContainer>
             );
